@@ -98,7 +98,7 @@ export class CreateUnitPage extends BasePage {
     get selectedService(): Locator {
         return this.page.getByTestId('item-servicesUnitFlow');
     }
-
+        
     public getinputError(fieldLocator: Locator): Locator {
         return fieldLocator.locator('xpath=following-sibling::div[1]');
     }

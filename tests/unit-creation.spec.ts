@@ -1,6 +1,20 @@
 import { test, expect } from '../fixtures/fixtures';
 import { AUTH_FILE } from '../utils/auth-helpers';
 import unitData from '../test-data/create-unit-data.json';
+import { CreateUnitPage } from '../pages/create-unit-page';
+
+async function checkSelectedTab(TabIndex: number, createUnitPage: CreateUnitPage): Promise<void> {
+    for (let i = 0; i < unitData.tabNames.length; i++) {
+        const tabNumberLocator = createUnitPage.tabNumbers.nth(i);
+        await expect(tabNumberLocator).toBeVisible();
+        await expect(tabNumberLocator).toHaveText((i + 1).toString());
+        await expect(createUnitPage.getTabTextLocator(tabNumberLocator)).toHaveText(unitData.tabNames[i]);
+        if (i !== TabIndex) {
+            await expect(createUnitPage.tabButtons.nth(i)).toHaveAttribute('aria-selected', 'false');
+        }
+    }
+    await expect(createUnitPage.tabButtons.nth(TabIndex)).toHaveAttribute('aria-selected', 'true');
+}
 
 test.describe('unit creation flow tests', () => {
     test.use({ storageState: AUTH_FILE })
@@ -28,16 +42,7 @@ test.describe('unit creation flow tests', () => {
 
 
         await test.step('4. Verify that the next tab is opened', async () => {
-            for (let i = 0; i < unitData.tabNames.length; i++) {
-                const tabNumberLocator = createUnitPage.tabNumbers.nth(i);
-                await expect(tabNumberLocator).toBeVisible();
-                await expect(tabNumberLocator).toHaveText((i + 1).toString());
-                await expect(createUnitPage.getTabTextLocator(tabNumberLocator)).toHaveText(unitData.tabNames[i]);
-                if (i !== 1) {
-                    await expect(createUnitPage.tabButtons.nth(i)).toHaveAttribute('aria-selected', 'false');
-                }
-            }
-            await expect(createUnitPage.tabButtons.nth(1)).toHaveAttribute('aria-selected', 'true');
+            await checkSelectedTab(1, createUnitPage);
 
             await expect(createUnitPage.bodyTitle).toBeVisible();
             await expect(createUnitPage.bodyTitle).toHaveText(unitData.bodyTitle);
@@ -54,12 +59,7 @@ test.describe('unit creation flow tests', () => {
             await expect(createUnitPage.prevBtn).toHaveText(unitData.buttonNames.prevBtn);
             await createUnitPage.prevBtn.click();
 
-            for (let i = 0; i < unitData.tabNames.length; i++) {
-                if (i !== 0) {
-                    await expect(createUnitPage.tabButtons.nth(i)).toHaveAttribute('aria-selected', 'false');
-                }
-            }
-            await expect(createUnitPage.tabButtons.nth(0)).toHaveAttribute('aria-selected', 'true');
+            await checkSelectedTab(0, createUnitPage);
         });
 
         await test.step('3. Verify that the data in the fields is preserved', async () => {
@@ -93,16 +93,7 @@ test.describe('unit creation flow tests', () => {
         });
 
         await test.step('4. Verify that the next tab is opened', async () => {
-            for (let i = 0; i < unitData.tabNames.length; i++) {
-                const tabNumberLocator = createUnitPage.tabNumbers.nth(i);
-                await expect(tabNumberLocator).toBeVisible();
-                await expect(tabNumberLocator).toHaveText((i + 1).toString());
-                await expect(createUnitPage.getTabTextLocator(tabNumberLocator)).toHaveText(unitData.tabNames[i]);
-                if (i !== 2) {
-                    await expect(createUnitPage.tabButtons.nth(i)).toHaveAttribute('aria-selected', 'false');
-                }
-            }
-            await expect(createUnitPage.tabButtons.nth(2)).toHaveAttribute('aria-selected', 'true');
+            await checkSelectedTab(2, createUnitPage);
 
             await expect(createUnitPage.bodyTitle).toBeVisible();
             await expect(createUnitPage.bodyTitle).toHaveText(unitData.bodyTitle);
@@ -139,12 +130,7 @@ test.describe('unit creation flow tests', () => {
             await expect(createUnitPage.selectedService).toBeVisible();
             await expect(createUnitPage.selectedService).toHaveText(unitData.serviceName);
 
-            for (let i = 0; i < unitData.tabNames.length; i++) {
-                if (i !== 2) {
-                    await expect(createUnitPage.tabButtons.nth(i)).toHaveAttribute('aria-selected', 'false');
-                }
-            }
-            await expect(createUnitPage.tabButtons.nth(2)).toHaveAttribute('aria-selected', 'true');
+            await checkSelectedTab(2, createUnitPage);
         });
     });
 
