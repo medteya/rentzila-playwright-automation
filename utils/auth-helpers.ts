@@ -12,7 +12,6 @@ const LOGIN_ENDPOINT = process.env.LOGIN_ENDPOINT;
 type Tokens = { access: string; refresh: string };
 
 export function getTestUserCredentials(): { email: string; password: string } {
-    if (fs.existsSync(ENV_FILE)) process.loadEnvFile(ENV_FILE);
 
     const email = process.env.TEST_USER_EMAIL;
     const password = process.env.TEST_USER_PASSWORD;

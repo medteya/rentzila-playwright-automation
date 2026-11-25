@@ -121,7 +121,7 @@ export class CreateUnitPage extends BasePage {
         await this.popupThirdCategoryLevelItem.first().click();
     }
 
-    public async fillDataInRequiredFields(name: string, producer: string, addressPlaceholderr: string): Promise<void> {
+    public async fillDataInRequiredFields(name: string, producer: string, addressPlaceholder: string): Promise<void> {
         await this.setCategory();
 
         await this.unitNameField.fill(name);
@@ -134,7 +134,7 @@ export class CreateUnitPage extends BasePage {
         await this.mapPopupSelectBtn.click();
 
         await this.mapPopup.waitFor({ state: 'hidden' });
-        await this.addressField.filter({ hasNotText: addressPlaceholderr }).waitFor();
+        await this.addressField.filter({ hasNotText: addressPlaceholder }).waitFor();
 
         await this.nextBtn.click();
     }
