@@ -1,14 +1,17 @@
 import { Locator, Page } from '@playwright/test';
 import { BasePage } from './base-page';
+import { MapComponent } from './components/map-component';
 
 export class ProductsPage extends BasePage {
   public readonly url = process.env.PRODUCTS_URL!;
+  public readonly map: MapComponent;
 
   constructor(page: Page) {
     super(page);
+    this.map = new MapComponent(page);
   }
 
-  public get map(): Locator {
+  public get mapContainer(): Locator {
     return this.page.locator('#map');
   }
 
@@ -22,6 +25,10 @@ export class ProductsPage extends BasePage {
 
   public get resetFilters(): Locator {
     return this.page.getByTestId('resetFilters');
+  }
+
+  public get filtersPanel(): Locator {
+    return this.page.locator('[class^=ResetFilters_filtersWrapper]');
   }
 
   public get constructionCategory(): Locator {
@@ -42,7 +49,23 @@ export class ProductsPage extends BasePage {
       .getByText('Складська техніка');
   }
 
-  async getUrl(): Promise<string> {
-    return this.page.url();
+  public get searchResultsText(): Locator {
+    return this.page.locator('h1[class^="MapPagination_count"]');
+  }
+
+  public get listedAds(): Locator {
+    return this.page.locator('[class^="ListPagination_unitsListCards"]');
+  }
+
+  public get showAsMapBtn(): Locator {
+    return this.page.getByTestId('switch').getByRole('button');
+  }
+
+  public serviceFilter(name: string): Locator {
+    return this.filtersPanel.getByText(name, { exact: true });
+  }
+
+  public categoryFilter(testId: string): Locator {
+    return this.page.getByTestId(testId);
   }
 }
