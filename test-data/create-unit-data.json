@@ -3,7 +3,11 @@
         "unitName": "TestUnitName",
         "unitProducer": "ABAC",
         "categoryName": "палебійні установки",
-        "imagePath1": "test-data/images/create-unit-valid-1.jpg"
+        "imagePath1": "test-data/images/create-unit-valid-1.jpg",
+        "unitPrice": "10000"
+    },
+    "invalidData": {
+        "webpPath": "test-data/images/create-unit-invalid-fomat.webp"
     },
     "tabNames": [
         "Основна інформація",
@@ -14,7 +18,13 @@
     ],
     "buttonNames": {
         "nextBtn": "Далі",
-        "prevBtn": "Назад"
+        "prevBtn": "Назад",
+        "cancelBtn":"Скасувати",
+        "saveBtn":"Зрозуміло"
+    },
+    "errorTexts":{ 
+        "samePhotoErr":"Ви не можете завантажити двічі один файл." ,
+        "wrongPhotoFormat":"Формат зображення не підтримується. Допустимі формати: .jpg, .jpeg, .png. Ви не можете завантажити файл більше 20 МВ." 
     },
     "addressPlaceholder": "Виберіть на мапі",
     "bodyTitle": "Створити оголошення",

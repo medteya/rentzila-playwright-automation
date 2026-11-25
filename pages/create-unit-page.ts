@@ -1,5 +1,6 @@
 import { Locator, Page } from '@playwright/test';
 import { BasePage } from './base-page';
+import { acceptDialog } from '../utils/dialog-handler'
 
 export class CreateUnitPage extends BasePage {
     protected readonly url = process.env.CREATE_UNIT_URL!;
@@ -8,95 +9,131 @@ export class CreateUnitPage extends BasePage {
         super(page)
     }
 
-    get categoryField(): Locator {
+    public get categoryField(): Locator {
         return this.page.getByTestId('buttonDiv');
     }
-    get categoryPopup(): Locator {
+    public get categoryPopup(): Locator {
         return this.page.getByTestId('categoryPopupWrapper');
     }
 
-    get popupConstructionMachinary(): Locator {
+    public get popupConstructionMachinary(): Locator {
         return this.categoryPopup.getByTestId('list__budivelna-tekhnika');
     }
 
-    get popupSubcategoryItems(): Locator {
+    public get popupSubcategoryItems(): Locator {
         return this.categoryPopup.getByTestId('namesBlock');
     }
 
-    get popupThirdCategoryLevelItem(): Locator {
+    public get popupThirdCategoryLevelItem(): Locator {
         return this.categoryPopup.getByTestId('thirdCategoryLabel');
     }
 
-    get unitNameField(): Locator {
+    public get unitNameField(): Locator {
         return this.page.getByTestId('custom-input').first();
     }
 
-    get producerSearchField(): Locator {
+    public get producerSearchField(): Locator {
         return this.page.locator('[class^="CustomSelectWithSearch_wrapper"]');
     }
 
-    get producerSearchDropdownItems(): Locator {
+    public get producerSearchDropdownItems(): Locator {
         return this.page.getByTestId('item-customSelectWithSearch');
     }
 
-    get producerSelected(): Locator {
+    public get producerSelected(): Locator {
         return this.page.getByTestId('div-service-customSelectWithSearch');
     }
 
-    get addressField(): Locator {
+    public get addressField(): Locator {
         return this.page.getByTestId('mapLabel');
     }
 
-    get mapPopup(): Locator {
+    public get mapPopup(): Locator {
         return this.page.getByTestId('div-mapPopup');
     }
 
-    get mapPopupSelectBtn(): Locator {
+    public get mapPopupSelectBtn(): Locator {
         return this.mapPopup.locator('[class^="MapPopup_btns"]').locator('[class^="ItemButtons"]').last();
     }
 
-    get nextBtn(): Locator {
+    public get nextBtn(): Locator {
         return this.page.getByTestId('nextButton');
     }
 
-    get prevBtn(): Locator {
+    public get prevBtn(): Locator {
         return this.page.getByTestId('prevButton');
     }
 
-    get bodyTitle(): Locator {
+    public get bodyTitle(): Locator {
         return this.page.locator('[class^="CreateEditFlowLayout_title"]');
     }
 
-    get tabButtons(): Locator {
+    public get tabButtons(): Locator {
         return this.page.getByRole('tab');
     }
 
-    get tabNumbers(): Locator {
+    public get tabNumbers(): Locator {
         return this.page.getByTestId('label');
     }
 
-    get imageBlocks(): Locator {
+    public get imageBlocks(): Locator {
         return this.page.getByTestId('imageBlock');
     }
 
-    get imageInput(): Locator {
+    public get imageInput(): Locator {
         return this.page.getByTestId('input_ImagesUnitFlow');
     }
 
-    get imageHint(): Locator {
+    public get imageHint(): Locator {
         return this.page.getByTestId('description');
     }
 
-    get serviceSearchField(): Locator {
+    public get serviceSearchField(): Locator {
         return this.page.getByTestId('searchResult');
     }
 
-    get serviceSearchDropdownItems(): Locator {
+    public get serviceSearchDropdownItems(): Locator {
         return this.page.getByTestId('searchItem-servicesUnitFlow');
     }
 
-    get selectedService(): Locator {
+    public get selectedService(): Locator {
         return this.page.getByTestId('item-servicesUnitFlow');
+    }
+
+    public get priceField(): Locator {
+        return this.page.getByTestId('priceInput_RowUnitPrice').first();
+    }
+
+    public get noPriceError(): Locator {
+        return this.page.getByTestId('div_required_RowUnitPrice');
+    }
+
+    public get userInfoCompanyType(): Locator {
+        return this.page.getByTestId('div_CustomSelect');
+    }
+
+    public get errorText(): Locator {
+        return this.page.getByTestId('errorPopup');
+    }
+
+    public get photoErrCrossBtn(): Locator {
+        return this.page.getByTestId('crossIcon').last();
+    }
+
+    public get backgroundOutsidePopup(): Locator {
+        return this.page.getByTestId('wrapper')
+    }
+    
+    public get uploadedImage(): Locator {
+        return this.page.locator('[class*="ImagesUnitFlow_fullSize"]')
+    } 
+
+    public get saveBtn(): Locator {
+        return this.page.locator('[class^="NotValidImagePopup_buttonContainer"]').locator('button[class^="ItemButtons"]')
+    } 
+
+    public async acceptDialogMsg(): Promise<void> {
+        await acceptDialog(this.page, () => this.prevBtn.click())
     }
         
     public getinputError(fieldLocator: Locator): Locator {
@@ -121,7 +158,7 @@ export class CreateUnitPage extends BasePage {
         await this.popupThirdCategoryLevelItem.first().click();
     }
 
-    public async fillDataInRequiredFields(name: string, producer: string, addressPlaceholderr: string): Promise<void> {
+    public async fillDataInRequiredFields(name: string, producer: string, addressPlaceholder: string): Promise<void> {
         await this.setCategory();
 
         await this.unitNameField.fill(name);
@@ -134,7 +171,7 @@ export class CreateUnitPage extends BasePage {
         await this.mapPopupSelectBtn.click();
 
         await this.mapPopup.waitFor({ state: 'hidden' });
-        await this.addressField.filter({ hasNotText: addressPlaceholderr }).waitFor();
+        await this.addressField.filter({ hasNotText: addressPlaceholder }).waitFor();
 
         await this.nextBtn.click();
     }
@@ -142,5 +179,4 @@ export class CreateUnitPage extends BasePage {
     async uploadImages(...files: string[]): Promise<void> {
         await this.imageInput.setInputFiles(files);
     }
-
 }
