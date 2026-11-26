@@ -8,8 +8,6 @@
     "test:ui": "playwright test --ui",
     "test:debug": "playwright test --debug",
     "test:chromium": "playwright test --project=chromium",
-    "test:firefox": "playwright test --project=firefox",
-    "test:webkit": "playwright test --project=webkit",
     "report": "playwright show-report",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
@@ -29,8 +27,8 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.63.0",
-    "@types/node": "^26.6.6",
-    "dotenv": "^18.0.10",
+    "@types/node": "^26.6.4",
+    "dotenv": "^18.0.9",
     "eslint": "^10.11.0",
     "prettier": "^3.9.9",
     "typescript-eslint": "^8.71.0"
