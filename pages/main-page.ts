@@ -1,14 +1,11 @@
 import { Locator, Page } from '@playwright/test';
 import { BasePage } from './base-page';
-import { Footer } from './components/footer-component';
 
 export class MainPage extends BasePage {
-  public readonly footer: Footer;
   public readonly url = process.env.BASE_URL!;
 
   constructor(page: Page) {
     super(page);
-    this.footer = new Footer(page);
   }
 
   public get searchField(): Locator {
